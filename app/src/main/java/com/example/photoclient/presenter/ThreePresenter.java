@@ -61,7 +61,7 @@ public class ThreePresenter extends MvpPresenter<MoxyView> implements RecyclerPr
                     if (list.size() == 0) {
                         getAllPhoto();
                     } else {
-                        Log.d(TAG, "ThreePresenter.loadDatabase: Выгрузка из БД успешна");
+                        Log.d(TAG, "ThreePresenter.loadDatabase: Данные из БД загружены");
                         this.hitList = list;
                         getViewState().updateRecyclerView();
                     }
