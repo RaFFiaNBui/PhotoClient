@@ -5,12 +5,14 @@ import android.util.Log;
 import com.example.photoclient.model.gson.Hit;
 import com.example.photoclient.model.gson.Photo;
 import com.example.photoclient.model.retrofit.ApiRequest;
-import com.example.photoclient.model.room.App;
+import com.example.photoclient.model.daggerApp.App;
 import com.example.photoclient.model.room.UrlDao;
 import com.example.photoclient.view.IViewHolder;
 import com.example.photoclient.view.MoxyView;
 
 import java.util.List;
+
+import javax.inject.Inject;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -27,7 +29,11 @@ public class ThreePresenter extends MvpPresenter<MoxyView> implements RecyclerPr
     private List<Hit> hitList;
     private UrlDao urlDao;
 
+    @Inject
+    ApiRequest apiRequest;
+
     public ThreePresenter() {
+        App.getAppComponent().inject(this);
         this.urlDao = App.getAppDatabase().urlDao();
     }
 
@@ -37,8 +43,8 @@ public class ThreePresenter extends MvpPresenter<MoxyView> implements RecyclerPr
     }
 
     private void getAllPhoto() {
-        ApiRequest api = new ApiRequest();
-        Observable<Photo> single = api.requestServer();
+        //ApiRequest api = new ApiRequest();    не используется после внедрения dagger
+        Observable<Photo> single = apiRequest.requestServer();
 
         Disposable disposable = single.observeOn(AndroidSchedulers.mainThread()).subscribe(photo -> {
                     hitList = photo.hits;

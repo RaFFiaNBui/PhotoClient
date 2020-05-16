@@ -11,7 +11,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.photoclient.R;
 import com.example.photoclient.model.ErrorLoadingListener;
 import com.example.photoclient.model.PicassoLoader;
+import com.example.photoclient.model.daggerApp.App;
 import com.example.photoclient.presenter.RecyclerPresenter;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -19,12 +22,16 @@ import butterknife.ButterKnife;
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
     private RecyclerPresenter recyclerPresenter;
-    private PicassoLoader picassoLoader;
+    //private PicassoLoader picassoLoader; //use before dagger
+
+    @Inject
+    PicassoLoader picassoLoader;
 
     //package-private
     MyAdapter(RecyclerPresenter iRecyclerMainPresenter) {
+        App.getAppComponent().inject(this);
         this.recyclerPresenter = iRecyclerMainPresenter;
-        this.picassoLoader = new PicassoLoader();
+        //this.picassoLoader = new PicassoLoader(); //use before dagger
     }
 
     @NonNull
