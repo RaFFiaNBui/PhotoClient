@@ -8,7 +8,10 @@ import androidx.annotation.Nullable;
 import com.example.photoclient.R;
 import com.example.photoclient.model.ErrorLoadingListener;
 import com.example.photoclient.model.PicassoLoader;
+import com.example.photoclient.model.daggerApp.App;
 import com.example.photoclient.presenter.DetailPresenter;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -25,6 +28,9 @@ public class DetailActivity extends MvpAppCompatActivity implements DetailMoxyVi
     @BindView(R.id.detail_img)
     ImageView imageView;
 
+    @Inject
+    PicassoLoader picassoLoader;
+
     private final ErrorLoadingListener errorLoadingListener = () -> {
     };
 
@@ -33,11 +39,13 @@ public class DetailActivity extends MvpAppCompatActivity implements DetailMoxyVi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
+        App.getAppComponent().inject(this);
+
         ButterKnife.bind(this);
 
         String url = getIntent().getStringExtra(URL);
 
-        new PicassoLoader().loadImage(url, imageView, errorLoadingListener);
+        picassoLoader.loadImage(url, imageView, errorLoadingListener);
     }
 
     @Override

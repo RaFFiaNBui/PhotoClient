@@ -4,7 +4,8 @@ import android.app.Application;
 
 import androidx.room.Room;
 
-public class App extends Application {
+//использовался до подключения dagger
+/*public class App extends Application {
 
     private static AppDatabase appDatabase;
 
@@ -19,4 +20,4 @@ public class App extends Application {
     public static AppDatabase getAppDatabase() {
         return appDatabase;
     }
-}
+}*/
