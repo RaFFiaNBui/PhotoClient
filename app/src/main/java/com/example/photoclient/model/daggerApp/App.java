@@ -5,6 +5,8 @@ import android.app.Application;
 import androidx.room.Room;
 
 import com.example.photoclient.model.room.AppDatabase;
+import com.squareup.leakcanary.LeakCanary;
+
 
 public class App extends Application {
 
@@ -18,6 +20,11 @@ public class App extends Application {
 
         appDatabase = Room.databaseBuilder(getApplicationContext(),
                 AppDatabase.class, "urls_database").build();
+
+        if (LeakCanary.isInAnalyzerProcess(this)) {
+            return;
+        }
+        LeakCanary.install(this);
     }
 
     public static AppComponent getAppComponent() {
