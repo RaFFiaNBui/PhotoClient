@@ -42,7 +42,7 @@ public class ThreePresenter extends MvpPresenter<MoxyView> implements RecyclerPr
         loadDatabase();
     }
 
-    private void getAllPhoto() {
+    public void getAllPhoto() {
         //ApiRequest api = new ApiRequest();    не используется после внедрения dagger
         Observable<Photo> single = apiRequest.requestServer();
 
