@@ -2,10 +2,10 @@ package com.example.photoclient.presenter;
 
 import android.util.Log;
 
+import com.example.photoclient.model.daggerApp.App;
 import com.example.photoclient.model.gson.Hit;
 import com.example.photoclient.model.gson.Photo;
 import com.example.photoclient.model.retrofit.ApiRequest;
-import com.example.photoclient.model.daggerApp.App;
 import com.example.photoclient.model.room.UrlDao;
 import com.example.photoclient.view.IViewHolder;
 import com.example.photoclient.view.MoxyView;
@@ -28,12 +28,12 @@ public class ThreePresenter extends MvpPresenter<MoxyView> implements RecyclerPr
 
     private List<Hit> hitList;
     private UrlDao urlDao;
+    private boolean isRunning = false;
 
     @Inject
     ApiRequest apiRequest;
 
     public ThreePresenter() {
-        App.getAppComponent().inject(this);
         this.urlDao = App.getAppDatabase().urlDao();
     }
 
@@ -42,8 +42,7 @@ public class ThreePresenter extends MvpPresenter<MoxyView> implements RecyclerPr
         loadDatabase();
     }
 
-    private void getAllPhoto() {
-        //ApiRequest api = new ApiRequest();    не используется после внедрения dagger
+    public void getAllPhoto() {
         Observable<Photo> single = apiRequest.requestServer();
 
         Disposable disposable = single.observeOn(AndroidSchedulers.mainThread()).subscribe(photo -> {
@@ -95,10 +94,13 @@ public class ThreePresenter extends MvpPresenter<MoxyView> implements RecyclerPr
 
     @Override
     public void clearDatabase() {
-        Disposable disposable = urlDao.deleteAll().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-                .subscribe(urlList -> {
-                    Log.d(TAG, "clearDatabase: База данных очищена");
-                    getAllPhoto();
-                }, throwable -> Log.e(TAG, "clearDatabase: Ошибка очистки базы данных", throwable));
+        if (!isRunning) {
+            isRunning = true;
+            Disposable disposable = urlDao.deleteAll().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(urlList -> {
+                        Log.d(TAG, "clearDatabase: База данных очищена");
+                        getAllPhoto();
+                    }, throwable -> Log.e(TAG, "clearDatabase: Ошибка очистки базы данных", throwable));
+        }
     }
 }
