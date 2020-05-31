@@ -30,7 +30,9 @@ android {
         sourceCompatibility = 1.8
         targetCompatibility = 1.8
     }
-
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
 }
 
 dependencies {
@@ -69,6 +71,7 @@ dependencies {
     annotationProcessor 'com.google.dagger:dagger-compiler:2.21'
     androidTestAnnotationProcessor 'com.google.dagger:dagger-compiler:2.21'
     testAnnotationProcessor 'com.google.dagger:dagger-compiler:2.21'
+    androidTestImplementation 'androidx.test:runner:1.2.0'
 
     testImplementation 'org.mockito:mockito-core:2.8.47'
 
