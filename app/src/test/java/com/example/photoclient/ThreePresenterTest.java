@@ -25,6 +25,12 @@ import io.reactivex.Observable;
 import io.reactivex.android.plugins.RxAndroidPlugins;
 import io.reactivex.schedulers.Schedulers;
 
+/*
+* Для этого теста необходимо закоментировать в презентере строки:
+* this.urlDao = App.getAppDatabase().urlDao();
+* loadDatabase();
+* saveToDatabase();
+ */
 @RunWith(MockitoJUnitRunner.class)
 public class ThreePresenterTest {
 
@@ -66,6 +72,6 @@ public class ThreePresenterTest {
         component.inject(threePresenter);
         threePresenter.attachView(moxyView);
         threePresenter.getAllPhoto();
-        Mockito.verify(moxyView).showPicture("Myurl");
+        Mockito.verify(moxyView).updateRecyclerView();
     }
 }
