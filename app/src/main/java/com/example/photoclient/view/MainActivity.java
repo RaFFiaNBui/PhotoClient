@@ -26,12 +26,12 @@ public class MainActivity extends MvpAppCompatActivity implements MoxyView {
     @InjectPresenter
     ThreePresenter presenter;
 
-/*    @ProvidePresenter
+    @ProvidePresenter
     public ThreePresenter threePresenter() {
         presenter = new ThreePresenter();
         App.getAppComponent().inject(presenter);
         return presenter;
-    }*/
+    }
 
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
