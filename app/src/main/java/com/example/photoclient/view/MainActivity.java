@@ -8,12 +8,14 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.photoclient.R;
+import com.example.photoclient.model.daggerApp.App;
 import com.example.photoclient.presenter.ThreePresenter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import moxy.MvpAppCompatActivity;
 import moxy.presenter.InjectPresenter;
+import moxy.presenter.ProvidePresenter;
 
 public class MainActivity extends MvpAppCompatActivity implements MoxyView {
 
@@ -23,6 +25,13 @@ public class MainActivity extends MvpAppCompatActivity implements MoxyView {
 
     @InjectPresenter
     ThreePresenter presenter;
+
+    @ProvidePresenter
+    public ThreePresenter threePresenter() {
+        presenter = new ThreePresenter();
+        App.getAppComponent().inject(presenter);
+        return presenter;
+    }
 
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
